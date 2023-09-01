@@ -19,13 +19,17 @@ const Register = () => {
     const registeredUser = async (data: FormData) => {
         try {
             const response = await axios.post('/api/register', data)
+            console.log(response);
+            
         } catch (error: any) {
                 const backendErrors = error.response.data.error.message;
                         setError("email", {
                             type: 'manual', 
                             message: backendErrors,
                           });  
+
               } 
+
         }
     return (
         <div className='container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]'>

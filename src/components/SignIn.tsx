@@ -3,13 +3,11 @@ import React, { use } from 'react'
 import { Icons } from './Icons'
 import Link from 'next/link'
 import UserAuthForm from './UserAuthForm'
-import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { yupResolver as resolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { credentialsSchema } from "@validators/credentialsSchema";
 import { useForm } from 'react-hook-form';
-import { log } from 'console'
 type FormData = yup.InferType<typeof credentialsSchema>;
 const SignIn = () => {
 
@@ -19,7 +17,7 @@ const SignIn = () => {
     });
     const loginUser = async (data: FormData) => {
         try {
-            const callback = await signIn('credentials', { ...data, redirect: false });
+            const callback = await signIn('credentials', { ...data, redirect: true });
             if (callback?.error) {
                 console.log(callback, 'GGGG');
 
@@ -58,6 +56,18 @@ const SignIn = () => {
                                 placeholder="Password"
                             />
                             {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+                        </div>
+                        <div className="flex">
+                            <div className="w-1/2">
+                                <input type="checkbox" name="remeberMe" />
+                                <label htmlFor="remeberMe">Remeber me</label>
+                            </div>
+                            <div className="w-1/2">
+                                <Link className="font-bold text-blue-600" href="/forgetPassword">
+                                    Forgot password?
+                                </Link>
+
+                            </div>
                         </div>
                         <div>
                             <input

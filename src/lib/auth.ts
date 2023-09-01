@@ -4,12 +4,9 @@ import { nanoid } from "nanoid";
 import { NextAuthOptions, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
 import bcrypt from "bcrypt";
 import { credentialsSchema } from "@/utils/validators/credentialsSchema";
 import createHttpError from "http-errors";
-import { NextResponse } from "next/server";
-import { errorHandelr } from "@/utils/handler";
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
@@ -52,15 +49,13 @@ export const authOptions: NextAuthOptions = {
           return user;
         } catch (error: any) {
           throw new createHttpError.BadRequest(error);
-          return null;
+
         }
       },
     }),
   ],
   callbacks: {
     async session({ token, session }) {
-      console.log(token, session);
-
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
