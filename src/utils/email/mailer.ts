@@ -33,19 +33,14 @@ export const sendEmail = async ({
       port: 587,
       secure: false,
       auth: {
-        // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-        user: "qunooa@gmail.com",
-        pass: "mzcimmquitwjepoy",
+        user: process.env.USER,
+        pass: process.env.PASSWORD,
       },
     });
 
-    const html = generateEmailHtml(
-      name,
-      hashedToken,
-      emailType
-    );
+    const html = generateEmailHtml(name, hashedToken, emailType);
     const mailOptions = {
-      from: "qunooa@gmail.com",
+      from: process.env.USER,
       to: email,
       subject:
         emailType === EmailType.VERIFY

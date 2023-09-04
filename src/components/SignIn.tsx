@@ -1,8 +1,9 @@
 'use client'
-import React, { use } from 'react'
+import React from 'react'
 import { Icons } from './Icons'
 import Link from 'next/link'
 import UserAuthForm from './UserAuthForm'
+import { useRouter } from "next/navigation";
 import { signIn } from 'next-auth/react'
 import { yupResolver as resolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -10,18 +11,20 @@ import { credentialsSchema } from "@validators/credentialsSchema";
 import { useForm } from 'react-hook-form';
 type FormData = yup.InferType<typeof credentialsSchema>;
 const SignIn = () => {
-
+    const router = useRouter();
     const { register, handleSubmit, formState: { errors }, setError } = useForm<FormData>({
         resolver: resolver(credentialsSchema),
         mode: 'onChange',
     });
     const loginUser = async (data: FormData) => {
         try {
-            const callback = await signIn('credentials', { ...data, redirect: true });
+            const callback = await signIn('credentials', { ...data, redirect: false });
             if (callback?.error) {
-                console.log(callback, 'GGGG');
-
+                setError("password", { message: callback.error.split(':')[1] });
+            } else {
+                router.push('/')
             }
+
         } catch (error) {
             console.log(error);
 
