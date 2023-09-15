@@ -12,6 +12,9 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  pages: {
+    error: "",
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -63,13 +66,11 @@ export const authOptions: NextAuthOptions = {
     },
 
     async jwt({ token, user }) {
-
       const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
         },
       });
-   
 
       if (!dbUser) {
         token.id = user!.id;

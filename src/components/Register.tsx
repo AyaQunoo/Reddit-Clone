@@ -29,7 +29,7 @@ const Register = () => {
                     description: 'Account has been created successfully!,please check your email to verify your account ',
                     variant: 'default'
                 })
-                router.push('/sign-in')
+                router.replace('/sign-in')
             }
 
         } catch (error: any) {

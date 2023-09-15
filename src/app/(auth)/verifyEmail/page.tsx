@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,7 +15,11 @@ const VerifyEmail = () => {
             setVerified(true)
             router.push("/");
         } catch (error) {
-            console.log(error);
+            toast({
+                title: 'something went wrong',
+                description: `${error}`,
+                variant: 'destructive'
+            })
 
         }
     }
@@ -26,6 +31,7 @@ const VerifyEmail = () => {
         if (token.length > 0) {
             verifyUserEmail();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2">

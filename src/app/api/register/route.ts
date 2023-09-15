@@ -6,7 +6,6 @@ import createHttpError from "http-errors";
 import { registerSchema } from "@validators/registerSchema";
 import { errorHandelr } from "@/utils/handler";
 import jwt from "jsonwebtoken";
-import validate from "deep-email-validator";
 import { sendEmail } from "@/utils/email/mailer";
 export async function POST(request: NextRequest) {
   try {
@@ -51,8 +50,6 @@ export async function POST(request: NextRequest) {
     response.cookies.set("token", token);
     return response;
   } catch (error: any) {
-    console.log(error);
-
     return errorHandelr(error);
   }
 }

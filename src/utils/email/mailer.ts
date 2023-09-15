@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
 import { EmailData, EmailType } from "../../types/api";
 import { generateEmailHtml } from "./buildmail";
+import { errorHandelr } from "../handler";
 export const sendEmail = async ({
   email,
   emailType,
@@ -51,6 +52,6 @@ export const sendEmail = async ({
     const mailresponse = await transporter.sendMail(mailOptions);
     return mailresponse;
   } catch (error: any) {
-    console.log(error);
+  return errorHandelr(error)
   }
 };

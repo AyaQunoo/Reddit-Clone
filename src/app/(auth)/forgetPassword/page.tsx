@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 import React, { useState } from "react";
 
@@ -10,11 +11,14 @@ const ForgetPassword = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         try {
-            const response = await axios.post('/api/forgetPassword', { email })
-            console.log(response);
+             await axios.post('/api/forgetPassword', { email })
 
         } catch (error) {
-            console.log(error);
+            toast({
+                title: 'something went wrong',
+                description: `${error}`,
+                variant: 'destructive'
+            })
 
         }
     }

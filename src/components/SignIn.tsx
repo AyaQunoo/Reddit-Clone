@@ -9,6 +9,7 @@ import { yupResolver as resolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { credentialsSchema } from "@validators/credentialsSchema";
 import { useForm } from 'react-hook-form';
+import { toast } from '@/hooks/use-toast'
 type FormData = yup.InferType<typeof credentialsSchema>;
 const SignIn = () => {
     const router = useRouter();
@@ -19,14 +20,21 @@ const SignIn = () => {
     const loginUser = async (data: FormData) => {
         try {
             const callback = await signIn('credentials', { ...data, redirect: false });
+
             if (callback?.error) {
                 setError("password", { message: callback.error.split(':')[1] });
-            } else {
+            } else if (callback?.status === 200) {
                 router.push('/')
+                router.refresh()
+
             }
 
         } catch (error) {
-            console.log(error);
+            toast({
+                title: 'something went wrong',
+                description: `${error}`,
+                variant: 'destructive'
+            })
 
         }
 
@@ -76,7 +84,7 @@ const SignIn = () => {
                             <input
                                 className="bg-[#4F46E5] w-full py-2 rounded-md text-white font-bold cursor-pointer hover:bg-[#181196]"
                                 type="submit"
-                                value="Register"
+                                value="Log in"
                             />
                         </div>
                     </form>

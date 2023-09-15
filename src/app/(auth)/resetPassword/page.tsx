@@ -7,9 +7,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver as resolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { resetPasswordSchema } from '@validators/credentialsSchema';
+import { toast } from "@/hooks/use-toast";
 type FormData = yup.InferType<typeof resetPasswordSchema>;
 export default function ResetPassword() {
-    const { register, handleSubmit, formState: { errors }, setError } = useForm<FormData>({
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: resolver(resetPasswordSchema),
         mode: 'onChange',
     });
@@ -23,7 +24,11 @@ export default function ResetPassword() {
             });
             router.push("/sign-in");
         } catch (error: any) {
-            console.log(error);
+            toast({
+                title: 'something went wrong',
+                description: `${error}`,
+                variant: 'destructive'
+            })
 
         }
     };

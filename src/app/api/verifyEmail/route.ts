@@ -42,7 +42,6 @@ export async function POST(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-    console.log(error);
     
     return errorHandelr(error);
   }
