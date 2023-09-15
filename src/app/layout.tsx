@@ -21,16 +21,14 @@ export default function RootLayout({
     <html lang='en' className={cn('bg-white text-slate-900 antialiased light', inter.className)}>
       <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
         <QueryProvider>
-          <Provider>
-            {/*@ts-expect-error server component*/}
-            <Navbar />
-            {authModal}
-            <div className='container max-w-7xl mx-auto h-full pt-12'>
-              {children}
+          {/*@ts-expect-error server component*/}
+          <Navbar />
+          {authModal}
+          <div className='container max-w-7xl mx-auto h-full pt-12'>
+            {children}
 
-            </div>
-            <Toaster />
-          </Provider>
+          </div>
+          <Toaster />
         </QueryProvider>
       </body>
     </html>

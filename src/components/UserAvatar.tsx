@@ -1,31 +1,31 @@
-import { Avatar, AvatarFallback, AvatarProps } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
 import { User } from "next-auth";
 import { FunctionComponent } from "react";
 import Image from "next/image";
 import { Icons } from "./Icons";
-
+import { AvatarProps } from '@radix-ui/react-avatar'
 interface UserAvatarProps extends AvatarProps {
     user: Pick<User, 'name' | 'image'>
 }
 
 const UserAvatar: FunctionComponent<UserAvatarProps> = ({ user, ...props }) => {
-    return <Avatar {...props}>
+    return (<Avatar {...props}>
         {user.image ? (
-            <div >
+            <div className='relative aspect-square h-full w-full'>
                 <Image
-                   width={30}
-                   height={30}
-                
+                    fill
                     src={user.image}
                     alt='profile picture'
-                   
+                    referrerPolicy='no-referrer'
                 />
             </div>
         ) : (
-            <AvatarFallback><span className="sr-only">{user?.name}</span><Icons.user className="h-4 w-4" /></AvatarFallback>
-
+            <AvatarFallback>
+                <span className='sr-only'>{user?.name}</span>
+                <Icons.user className='h-4 w-4' />
+            </AvatarFallback>
         )}
-    </Avatar>;
+    </Avatar>);
 }
 
 export default UserAvatar;
