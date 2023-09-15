@@ -13,19 +13,20 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import * as yup from "yup";
 interface UserNameFormProps {
     user: Pick<User, 'id' | 'username'>
 }
-
+type formData = yup.InferType<typeof usernameSchema>;
 const UserNameForm: FC<UserNameFormProps> = ({ user }) => {
-    const { handleSubmit, register, formState: { errors } } = useForm<>({
+    const { handleSubmit, register, formState: { errors } } = useForm<formData>({
         resolver: resolver(usernameSchema),
         defaultValues: {
             name: user?.username || ''
         }
     })
-    const router= useRouter()
-    const { mutate: updateUsername, isLoading} = useMutation({
+    const router = useRouter()
+    const { mutate: updateUsername, isLoading } = useMutation({
         mutationFn: async ({ name }: usernameRequest) => {
             const payload: usernameRequest = { name }
             const { data } = await axios.patch('/api/username', payload)
@@ -33,32 +34,32 @@ const UserNameForm: FC<UserNameFormProps> = ({ user }) => {
         },
         onError: (err) => {
             if (err instanceof AxiosError) {
-              if (err.response?.status === 409) {
-                return toast({
-                  title: 'Username already taken.',
-                  description: 'Please choose another username.',
-                  variant: 'destructive',
-                })
-              }
+                if (err.response?.status === 409) {
+                    return toast({
+                        title: 'Username already taken.',
+                        description: 'Please choose another username.',
+                        variant: 'destructive',
+                    })
+                }
             }
-      
+
             return toast({
-              title: 'Something went wrong.',
-              description: 'Your username was not updated. Please try again.',
-              variant: 'destructive',
+                title: 'Something went wrong.',
+                description: 'Your username was not updated. Please try again.',
+                variant: 'destructive',
             })
-          },
-          onSuccess: () => {
+        },
+        onSuccess: () => {
             toast({
-              description: 'Your username has been updated.',
+                description: 'Your username has been updated.',
             })
             router.refresh()
-          },
+        },
     })
     return (<form
-     
-        onSubmit={handleSubmit((e) =>updateUsername(e) )}
-       >
+
+        onSubmit={handleSubmit((e) => updateUsername(e))}
+    >
         <Card>
             <CardHeader>
                 <CardTitle>Your username</CardTitle>

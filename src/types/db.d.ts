@@ -5,3 +5,4 @@ export type ExtendedPost = Post & {
   author: User;
   comments: Comment[];
 };
+export declare type FetchPolicy = 'cache-first' | 'network-only' | 'cache-only' | 'no-cache' | 'standby';
