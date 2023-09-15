@@ -15,7 +15,7 @@ const UserAuthForm: FunctionComponent<UserAuthFormProps> = ({ className, ...prop
     const loginWithGoogle = async () => {
         setIsLoading(true)
         try {
-            await signIn('google')
+            await signIn('google', { callbackUrl: '/' })
         } catch (error) {
             toast({
                 title: 'there was a problem',
